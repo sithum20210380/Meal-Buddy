@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg3"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/SearchForMeals_button"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:drawableLeft="@drawable/ic_sm"
+        android:drawableRight="@drawable/ic_sm"
+        android:text="Search for Meals"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/SearchMealsByIngredients_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.4"/>
+
+    <Button
+        android:id="@+id/SearchMealsByIngredients_button"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:text="Search for Meals By Ingredients"
+        android:drawableLeft="@drawable/ic_ing"
+        android:drawableRight="@drawable/ic_ing"
+        app:layout_constraintTop_toBottomOf="@+id/SearchForMeals_button"
+        app:layout_constraintBottom_toTopOf="@+id/SearchByName_Button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.05"/>
+
+    <Button
+        android:id="@+id/SearchByName_Button"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:text="Search By Name"
+        android:drawableLeft="@drawable/ic_meal"
+        android:drawableRight="@drawable/ic_meal"
+        app:layout_constraintTop_toBottomOf="@+id/SearchMealsByIngredients_button"
+        app:layout_constraintBottom_toTopOf="@+id/addMealToDB_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.05"/>
+
+    <Button
+        android:id="@+id/addMealToDB_button"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:text="Add Meals to DB"
+        android:drawableLeft="@drawable/ic_db1"
+        android:drawableRight="@drawable/ic_db1"
+        app:layout_constraintTop_toBottomOf="@+id/SearchByName_Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.05"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Meal Buddy"
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.174" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
