@@ -53,6 +53,14 @@
             android:layout_marginTop="8dp"
             android:text="Ingredients:" />
 
+        <TextView
+            android:id="@+id/messuresTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Messures:"
+            android:textSize="14sp" />
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
