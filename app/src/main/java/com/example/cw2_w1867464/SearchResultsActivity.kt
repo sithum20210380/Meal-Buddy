@@ -1,6 +1,7 @@
 package com.example.cw2_w1867464
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -62,6 +63,15 @@ class SearchResultsActivity : AppCompatActivity() {
                 }
             })
         }
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // Save any necessary data here
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Handle orientation change here if needed
     }
 }
 

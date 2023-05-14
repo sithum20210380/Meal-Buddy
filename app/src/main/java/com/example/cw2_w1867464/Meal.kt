@@ -11,6 +11,7 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
+// This data class represents the Meal entity that will be stored in the database
 @Entity(tableName = "meals")
 data class Meal(
     @PrimaryKey val id: Int,
@@ -101,7 +102,7 @@ class RetrieveMealsTask(private val ingredient: String, private val callback: (L
 }
 
 class ListStringConverter {
-
+    // @TypeConverter tells Room to use them for converting between the types in the Room database.
     @TypeConverter
     fun fromListString(value: List<String>?): String? {
         return value?.joinToString(",")

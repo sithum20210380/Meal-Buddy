@@ -2,6 +2,7 @@ package com.example.cw2_w1867464
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -38,13 +39,11 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel = ViewModelProvider(this).get(MealViewModel::class.java)
 
-
+        // Buttons in the home screen
         searchForMeals = findViewById(R.id.SearchForMeals_button)
         searchMealsByIngredients = findViewById(R.id.SearchMealsByIngredients_button)
         searchByname = findViewById(R.id.SearchByName_Button)
         addMealsToDB = findViewById(R.id.addMealToDB_button)
-
-
 
 
         // Initialize MealDao
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         searchMealsByIngredients.setOnClickListener {
-            val intent = Intent(this, MealDetailsActivity::class.java)
+            val intent = Intent(this, SearchByIngredientActivity::class.java)
             startActivity(intent)
         }
         searchByname.setOnClickListener {
@@ -69,6 +68,16 @@ class MainActivity : AppCompatActivity() {
         addMealsToDB.setOnClickListener {
             addMealsToDb()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // Save any necessary data here
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Handle orientation change here if needed
     }
 
     private fun addMealsToDb() {
@@ -118,64 +127,13 @@ class MainActivity : AppCompatActivity() {
             )
 
             mealDao.insert(meals)
+            // Show a toast message on the main UI thread
+            runOnUiThread {
+                Toast.makeText(this@MainActivity, "Meals added to the database", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-//    id=id,
-//    name = name,
-//    category = category,
-//    area = area,
-//    instructions = instructions,
-//    tags = tags,
-//    youtubeLink = youtubeLink,
-//    measures = measures,
-//    ingredients = ingredients,
-//    mealThumb = mealThumb
-
-
-//    private suspend fun retrieveMealsFromWebService(ingredient: String): String {
-//        // Make HTTP request to the web service
-//        val url = "https://www.themealdb.com/api/json/v1/1/filter.php?i=$ingredient"
-//        val response = URL(url).readText()
-//
-//        // Parse JSON response
-//        val meals = JSONObject(response).getJSONArray("meals")
-//        val mealDetails = mutableListOf<String>()
-//        for (i in 0 until meals.length()) {
-//            val mealId = meals.getJSONObject(i).getString("idMeal")
-//            val mealDetailsResponse =
-//                URL("https://www.themealdb.com/api/json/v1/1/lookup.php?i=$mealId").readText()
-//            val meal = JSONObject(mealDetailsResponse).getJSONArray("meals").getJSONObject(0)
-//            val mealName = meal.getString("strMeal")
-//            val category = meal.getString("strCategory")
-//            val area = meal.getString("strArea")
-//            val instructions = meal.getString("strInstructions")
-//            val tags = meal.optString("strTags", "")
-//            val youtube = meal.optString("strYoutube", "")
-//            val ingredients = mutableListOf<String>()
-//            val measures = mutableListOf<String>()
-//            for (j in 1..20) {
-//                val ingredient = meal.optString("strIngredient$j", "")
-//                if (ingredient.isNotEmpty()) {
-//                    ingredients.add(ingredient)
-//                    measures.add(meal.optString("strMeasure$j", ""))
-//                }
-//            }
-//            val mealDetail = """
-//                "Meal":"$mealName",
-//                "Category":"$category",
-//                "Area":"$area",
-//                "Instructions":"$instructions",
-//                "Tags":"$tags",
-//                "Youtube":"$youtube",
-//                "Ingredients":${ingredients.joinToString(",", "[", "]")},
-//                "Measures":${measures.joinToString(",", "[", "]")}
-//                 """
-//            mealDetails.add(mealDetail)
-//        }
-//        return mealDetails.joinToString(separator = "\n")
-//
-//    }
 
 }
 

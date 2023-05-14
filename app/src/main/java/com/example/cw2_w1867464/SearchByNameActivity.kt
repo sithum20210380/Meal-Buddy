@@ -1,6 +1,7 @@
 package com.example.cw2_w1867464
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -111,6 +112,16 @@ class SearchByNameActivity : AppCompatActivity() {
 
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // Save any necessary data here
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Handle orientation change here if needed
+    }
+
 
     private suspend fun retrieveMealsFromWebService(substring: String): List<Meal> {
         // Make HTTP request to the web service
@@ -126,14 +137,6 @@ class SearchByNameActivity : AppCompatActivity() {
 
         val mealList = mutableListOf<Meal>()
         for (i in 0 until mealsJson.length()) {
-//            val mealId = mealsJson.getJSONObject(i).getString("idMeal")
-//            val mealDetailsResponse =
-//                URL("https://www.themealdb.com/api/json/v1/1/lookup.php?i=$mealId").readText()
-//            val mealDetailsJson = JSONObject(mealDetailsResponse).optJSONArray("meals")
-//            if (mealDetailsJson == null || mealDetailsJson.length() == 0) {
-//                // Handle error here, e.g. log a message or skip this meal
-//                continue
-//            }
             val meal = mealsJson.getJSONObject(i)
             val id = meal.getString("idMeal").toInt()
             val mealName = meal.getString("strMeal")
@@ -171,10 +174,11 @@ class SearchByNameActivity : AppCompatActivity() {
 
 
 
+    // This function takes a Meal object as input and returns a formatted string with all its details
     fun mealDetailsString(meal: Meal): String {
         val sb = StringBuilder()
+        // Append each meal detail to the StringBuilder object
         sb.append("Meal: ${meal.name}\n")
-        //sb.append("DrinkAlternate: ${meal.drinkAlternate}\n")
         sb.append("Category: ${meal.category}\n")
         sb.append("Area: ${meal.area}\n")
         sb.append("Instructions: ${meal.instructions}\n")
@@ -182,10 +186,13 @@ class SearchByNameActivity : AppCompatActivity() {
         sb.append("Youtube: ${meal.youtubeLink}\n")
         sb.append("Thumbnail URL: ${meal.mealThumb}\n")
 
+        // Append each ingredient to the StringBuilder object
         sb.append("Ingredients:\n")
         for (i in meal.ingredients.indices) {
             sb.append("Ingredient${i + 1}: ${meal.ingredients[i]}\n")
         }
+
+        // Append each measure to the StringBuilder object
         sb.append("\nMeasures:\n")
         for (i in meal.measures.indices) {
             sb.append("Measure${i + 1}: ${meal.measures[i]}\n")

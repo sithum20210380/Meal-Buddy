@@ -1,6 +1,7 @@
 package com.example.cw2_w1867464
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -14,7 +15,7 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.URL
 
-class MealDetailsActivity : AppCompatActivity() {
+class SearchByIngredientActivity : AppCompatActivity() {
     private lateinit var mealsTextView: TextView
     private lateinit var ingredientEditText: TextView
     private lateinit var retrieveMealsButton: Button
@@ -29,7 +30,7 @@ class MealDetailsActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_meal_details)
+        setContentView(R.layout.activity_search_by_ingredient)
 
         mealsTextView = findViewById(R.id.meal_details)
         ingredientEditText = findViewById(R.id.ingredientEditText)
@@ -51,8 +52,6 @@ class MealDetailsActivity : AppCompatActivity() {
 
             // Update UI with search results on the main thread
             withContext(Dispatchers.Main) {
-                // Display meals in TextView
-                //mealsTextView.text = meals
             }
         }
 
@@ -65,17 +64,16 @@ class MealDetailsActivity : AppCompatActivity() {
                     if (meals.isEmpty()) {
                         // Display an error message if there are no meals for the given ingredient
                         Toast.makeText(
-                            this@MealDetailsActivity,
+                            this@SearchByIngredientActivity,
                             "No meals found for $searchIngredient",
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                        val builder = AlertDialog.Builder(this@MealDetailsActivity)
+                        val builder = AlertDialog.Builder(this@SearchByIngredientActivity)
                         builder.setTitle("Meal Details")
 
                         // Set the message of the dialog box to be the meal details
                         builder.setMessage(meals.joinToString(separator = "\n\n") { mealDetailsString(it) })
-
 
                         // Add a button to close the dialog box
                         builder.setPositiveButton("OK", null)
@@ -85,7 +83,7 @@ class MealDetailsActivity : AppCompatActivity() {
                         dialog.show()
 
                         meals?.let {
-                            this@MealDetailsActivity.meals=it
+                            this@SearchByIngredientActivity.meals=it
                         }
                     }
                 }
@@ -98,16 +96,26 @@ class MealDetailsActivity : AppCompatActivity() {
                     mealDao.insertAll(it)
                     // Update UI with a toast on the main thread
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(this@MealDetailsActivity, "Meals saved to database", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@SearchByIngredientActivity, "Meals saved to database", Toast.LENGTH_SHORT).show()
                     }
                 } ?: run {
                     // Update UI with a toast on the main thread if meals is null
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(this@MealDetailsActivity, "No meals to save", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@SearchByIngredientActivity, "No meals to save", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // Save any necessary data here
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Handle orientation change here if needed
     }
 
 
@@ -169,30 +177,30 @@ class MealDetailsActivity : AppCompatActivity() {
     }
 
 
+    // This function takes a Meal object as input and returns a formatted string with all its details
+    fun mealDetailsString(meal: Meal): String {
+        val sb = StringBuilder()
+            // Append each meal detail to the StringBuilder object
+        sb.append("Meal: ${meal.name}\n")
+        sb.append("Category: ${meal.category}\n")
+        sb.append("Area: ${meal.area}\n")
+        sb.append("Instructions: ${meal.instructions}\n")
+        sb.append("Tags: ${meal.tags}\n")
+        sb.append("Youtube: ${meal.youtubeLink}\n")
+        sb.append("Thumbnail URL: ${meal.mealThumb}\n")
+        // Append each ingredient to the StringBuilder object
+        sb.append("Ingredients:\n")
+        for (i in meal.ingredients.indices) {
+            sb.append("Ingredient${i + 1}: ${meal.ingredients[i]}\n")
+        }
+        // Append each measure to the StringBuilder object
+        sb.append("\nMeasures:\n")
+        for (i in meal.measures.indices) {
+            sb.append("Measure${i + 1}: ${meal.measures[i]}\n")
+        }
 
-fun mealDetailsString(meal: Meal): String {
-    val sb = StringBuilder()
-    sb.append("Meal: ${meal.name}\n")
-    //sb.append("DrinkAlternate: ${meal.drinkAlternate}\n")
-    sb.append("Category: ${meal.category}\n")
-    sb.append("Area: ${meal.area}\n")
-    sb.append("Instructions: ${meal.instructions}\n")
-    sb.append("Tags: ${meal.tags}\n")
-    sb.append("Youtube: ${meal.youtubeLink}\n")
-    sb.append("Thumbnail URL: ${meal.mealThumb}\n")
-
-    sb.append("Ingredients:\n")
-    for (i in meal.ingredients.indices) {
-        sb.append("Ingredient${i + 1}: ${meal.ingredients[i]}\n")
-    }
-    sb.append("\nMeasures:\n")
-    for (i in meal.measures.indices) {
-        sb.append("Measure${i + 1}: ${meal.measures[i]}\n")
-    }
-
-    return sb.toString()
-}
-
+        return sb.toString()
+     }
 }
 
 

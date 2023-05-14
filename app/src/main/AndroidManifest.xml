@@ -22,14 +22,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MealDetailsActivity"
+            android:configChanges="orientation|screenSize"
+            android:name=".SearchByIngredientActivity"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:configChanges="orientation|screenSize"
             android:name=".SearchResultsActivity"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:configChanges="orientation|screenSize"
             android:name=".SearchByNameActivity"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity" />
